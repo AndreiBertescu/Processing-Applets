@@ -5,6 +5,7 @@ boolean[] done, redraww;
 float cenx = 0, ceny = 0, scale = 1;
 
 //settings
+//use wasd keys to move arond
 int maxIterr = 1500;  // quality/depth of sim
 int type = 1; // 0 - Mandelbrot Set / 1- Julia Set
 
@@ -256,6 +257,7 @@ void keyPressed() {
 }
 
 void exit() {
-  save("Fractal.tiff");
+  saveFrame("data/Fractal.jpg");
   println(cenx, ceny, scale);
+  super.exit();
 }
