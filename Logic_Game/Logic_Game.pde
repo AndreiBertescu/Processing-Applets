@@ -34,9 +34,9 @@ void setup() {
   fullScreen();
   ellipseMode(CENTER);
   
-  dir = new File(sketchPath() + "/data/types");
+  dir = new File(dataPath("types"));
   files = dir.list();
-  canv = new File(sketchPath() + "/data/canv");
+  canv = new File(dataPath("canv"));
   cfiles = dir.list();
 
   canvas = new Canvas(4, 2);

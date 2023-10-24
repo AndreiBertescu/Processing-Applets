@@ -54,12 +54,12 @@ void setup() {
   hoveredBigConnection = -1;
   currentBigConnection = -1;
 
-  dir = new File(sketchPath() + "/data/types");
+  dir = new File(dataPath("types"));
   files = dir.list();
-  canv = new File(sketchPath() + "/data/canv");
+  canv = new File(dataPath("canv"));
   cfiles = dir.list();
 
-  //creat canvas
+  //create canvas
   mainCanvas = new Canvas();
   //create menu
   menu = new Menu(menuWidth, height, menuSize);
