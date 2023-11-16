@@ -57,7 +57,7 @@ A collection of small Processing programs to visualize mathematical models and o
 
 **Mandel_Bulb**: An applet which can generate variations of the Mandelbulb. [Wikipedia Link](https://en.wikipedia.org/wiki/Mandelbulb)
 
-<img src="https://github.com/AndreiBertescu/Processing-Applets/assets/126001291/355de4e9-5a74-4718-97c5-5dac1c47b84b" height="350">
+<img src="https://github.com/AndreiBertescu/Processing-Applets/assets/126001291/af7692c1-5202-4248-96a6-cfb551b3cb33" height="350">
 
 **Mandelbrot_Set**: Fractal generation of different fractal images; it has two modes: the Mandelbrot set and the Julia set. [Wikipedia Link](https://en.wikipedia.org/wiki/Mandelbrot_set)
 
