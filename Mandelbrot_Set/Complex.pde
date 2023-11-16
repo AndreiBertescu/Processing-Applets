@@ -1,45 +1,28 @@
-class Complex {
+class Complex{
   float re, im;
+  
+  Complex() {
+    this.re = 0;
+    this.im = 0;
+  }
 
   Complex(float re, float im) {
     this.re = re;
     this.im = im;
   }
-
-  void update() {
+  
+  public float len(){
+    return re * re + im * im;
   }
-
-  void add(Complex z) {
-    re += z.re;
-    im += z.im;
+  
+  public void square() {
+    float aux = re;
+    re = re*re - im*im;
+    im = 2 * aux*im;
   }
-
-  void sub(Complex z) {
-    re += z.re;
-    im += z.im;
-  }
-
-  void mult(Complex z) {
-    float aux = re*z.re - im*z.im;
-    im = re*z.im + z.re+im;
-    re = aux;
-  }
-
-  void div(Complex z) {
-    float aux = (re*z.re + im*z.im)/(z.re*z.re + z.im*z.im);
-    im = (im*z.re - re*z.im)/(z.re*z.re + z.im*z.im);
-    re = aux;
-  }
-
-  void binom() {
-    float aux = re*re - im*im;
-    im = 2*re*im;
-    re = aux;
-  }
-
-  void poww(int n) {
-    float aux = pow((re * re + im * im), (n / 2)) * cos(n * atan2(im, re));
-    im = pow((re * re + im * im), (n / 2)) * sin(n * atan2(im, re));
-    re = aux;
+  
+  public void add(Complex c){
+    re += c.re;
+    im += c.im;
   }
 }

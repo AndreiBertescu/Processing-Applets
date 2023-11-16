@@ -1,271 +1,136 @@
-boolean redraw = true;
+float minAxis, axisOffsetx, axisOffsety;
+float offsetx = 0, offsety = 0, offx = 0, offy = 0, scale = 1;
+boolean isLooping = true;
+Chunk[][] chunks;
+byte[][] pixls;
 color c1, c2;
-float[][][] colors;
-boolean[] done, redraww;
-float cenx = 0, ceny = 0, scale = 1;
 
-//settings
+////////////////SETINGS
+//use left/right click to increase/decrease zoom
 //use wasd keys to move arond
-int maxIterr = 1500;  // quality/depth of sim
-int type = 1; // 0 - Mandelbrot Set / 1- Julia Set
+//use shift + wasd keys to move around faster
+int maxIter = 2500;             //max iterations to check if complex number escaped
+int threads = 3;                //ammount of threads per horizontal line - total ammount id squared
+float moveAmount = 10;          //ammount to move the offset
+float zoomAmount = 0.3;         //values between 0-1 the percentage to increase/decrease the scale
+boolean blackAndWhite = false;  //choose whether the fractal is black and white, or colored
+int imageDefinition = 15;       //the detail rendered - lower value -> higher definiton
+int type = 0;                   // 0 - Mandelbrot Set / 1- Julia Set
 
 void setup() {
-  size(1920, 1080);
+  //size(1000, 1000);
+  fullScreen();
   colorMode(HSB);
 
-  cenx = 0;
-  ceny = 0;
-  scale = 1;
-  if (type == 0) {
-    cenx = 278.31122;
-    ceny = 532.23596;
-    scale = 25.628906;
-  } else if (type == 1) {
-    cenx = 843.61533;
-    ceny = 454.44;
-    scale = 13.3237;
-  }
+  c2 = color(map(121, 0, 360, 0, 255), 255, 50*2.55);
+  c1 = color(map(69, 0, 360, 0, 255), 255, 100*2.55);
 
-  c1 = color(174, 200, 135);
-  c2 = color(40, 144, 235);
+  //Mandelbrot
+  offx = 18373.197;
+  offy = 4128.673;
+  offsetx = -1020.0;
+  offsety = -6780.0;
+  scale = 21.201246;
+
+  //Julia
+  //offx = 22906.152;
+  //offy = 11840.96;
+  //offsetx = 1500;
+  //offsety = -200;
+  //scale = 23.298075;
+
+  minAxis = min(width, height);
+  pixls = new byte[width][height];
+
+  chunks = new Chunk[threads][threads];
 }
 
 void draw() {
-  if (redraw) {
-    colors = new float[8][width + 1][height + 1];
-    done = new boolean[8];
+  if (!isLooping)
+    return;
 
-    for (int i=0; i<8; i++)
-      done[i] = false;
-
-    thread("th1");
-    thread("th2");
-    thread("th3");
-    thread("th4");
-    thread("th5");
-    thread("th6");
-    thread("th7");
-    thread("th8");
-
-    redraw=false;
-    println(cenx, ceny, scale);
+  if (minAxis == height) {
+    axisOffsetx = -abs(width-height)/2 + offx;
+    axisOffsety = offy;
   } else {
-    for (int i=0; i<8; i++)
-      if (done[i])
-        screenSet(i);
+    axisOffsetx =  offx;
+    axisOffsety = -abs(width-height)/2 + offy;
   }
-}
 
-void redraw(int id, int starty, int endy, int startx, int endx) {
-  if (type == 1) { // Julia Set
-    Complex z = new Complex(0, 0);
-    Complex c = new Complex(-0.8, 0.156);
-    float x0, y0;
-    int nr = 0;
+  //draw function
+  background(255);
 
-    for (int y=starty; y<=endy; y++)
-      for (int x=startx; x<=endx; x++) {
-        nr=0;
-        x0 = map(x*(width/(height*scale))+cenx, 0, width, -2, 2);
-        y0 = map(y/scale+ceny, 0, height, -2, 2);
-
-        z.re = x0;
-        z.im = y0;
-
-        while (nr++<maxIterr && z.re*z.re + z.im*z.im <= 4) {
-          z.poww(2);
-          z.add(c);
-        }
-
-        if (nr==maxIterr+1)
-          set(x, y, color(0));
-        else if (nr==1 || nr==2)
-          set(x, y, c1);
-        else
-          set(x, y, lerpColor(c1, c2, map(nr, 1, maxIterr-100, 0.0, 1.0)));
-
-        colors[id][x][y] = map((nr*5), 1, maxIterr, 50, 255);
-      }
-  } else if (type == 0) { // Mandelbrot Set
-    Complex c, z = new Complex(0, 0);
-    float x0, y0;
-    int nr = 0;
-
-    for (int y=starty; y<=endy; y++)
-      for (int x=startx; x<=endx; x++) {
-        nr=0;
-        x0 = map(x*(width/(height*scale))+cenx, 0, width, -2, 2);
-        y0 = map(y/scale+ceny, 0, height, -2, 2);
-
-        z.re = 0;
-        z.im = 0;
-        c = new Complex(x0, y0);
-
-        while (nr++<maxIterr && z.re*z.re + z.im*z.im <= 4) {
-          z.binom();
-          z.add(c);
-        }
-
-        if (nr==maxIterr+1)
-          colors[id][x][y] = -1;
-        else
-          colors[id][x][y] = map(nr*5, 0, maxIterr, 0, 230);
-      }
-  }
-}
-
-void th1() {
-  redraw(0, 0, height/2, 0, int(width * 0.25));
-  done[0] = true;
-}
-
-void th2() {
-  redraw(1, 0, height/2, int(width * 0.25), int(width * 0.5));
-  done[1] = true;
-}
-
-void th3() {
-  redraw(2, 0, height/2, int(width * 0.5), int(width * 0.75));
-  done[2] = true;
-}
-
-void th4() {
-  redraw(3, 0, height/2, int(width * 0.75), width);
-  done[3] = true;
-}
-
-void th5() {
-  redraw(4, height/2, height, 0, int(width * 0.25));
-  done[4] = true;
-}
-
-void th6() {
-  redraw(5, height/2, height, int(width * 0.25), int(width * 0.5));
-  done[5] = true;
-}
-
-void th7() {
-  redraw(6, height/2, height, int(width * 0.5), int(width * 0.75));
-  done[6] = true;
-}
-
-void th8() {
-  redraw(7, height/2, height, int(width * 0.75), width);
-  done[7] = true;
-}
-
-void screenSet(int id) {
-  if (id < 4) {
-    for (int y = 0; y < height/2; y++) {
-      if (id == 0) {
-        for (int x = 0; x < int(width * 0.25); x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      } else if (id == 1) {
-        for (int x = int(width * 0.25); x < int(width * 0.5); x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      } else if (id == 2) {
-        for (int x = int(width * 0.5); x < int(width * 0.75); x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      } else if (id == 3) {
-        for (int x = int(width * 0.75); x < width; x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      }
+  for (int i=0; i<threads; i++)
+    for (int j=0; j<threads; j++) {
+      if (chunks[i][j] != null)
+        chunks[i][j].interrupt();
+      chunks[i][j] = new Chunk(width/threads * i, width/threads * (i+1), height/threads * j, height/threads * (j+1));
     }
-  } else {
-    for (int y = height/2; y < height; y++) {
-      if (id == 4) {
-        for (int x = 0; x < int(width * 0.25); x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      } else if (id == 5) {
-        for (int x = int(width * 0.25); x < int(width * 0.5); x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      } else if (id == 6) {
-        for (int x = int(width * 0.5); x < int(width * 0.75); x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      } else if (id == 7) {
-        for (int x = int(width * 0.75); x < width; x++)
-          if (type == 0) {
-            if (colors[id][x][y] == -1)
-              set(x, y, color(0));
-            else
-              set(x, y, color(colors[id][x][y], 255, 255));
-          } else if (type == 1)
-            set(x, y, color(colors[id][x][y]));
-      }
-    }
-  }
+
+  println(offx, offy, offsetx, offsety, scale);
+
+  isLooping = false;
 }
 
-void mouseClicked() {
-  scale*=1.5;
-  redraw=true;
+public void mouseReleased() {
+  if (mouseButton == RIGHT)
+    scale *= 1 - zoomAmount;
+  else if (mouseButton == LEFT)
+    scale *= 1 + zoomAmount;
+
+  offx = (width/2) * (scale-1) + offsetx;
+  offy = (height/2) * (scale-1) + offsety;
+
+  isLooping = true;
 }
 
-void keyPressed() {
-  if (keyCode == 87) {//up
-    ceny-=1000/scale;
+public void keyReleased() {
+  switch(key) {
+  case 'W':
+    offsety -= moveAmount;
+    offy -= moveAmount;
+    break;
+  case 'A':
+    offsetx -= moveAmount;
+    offx -= moveAmount;
+    break;
+  case 'S':
+    offsety += moveAmount;
+    offy += moveAmount;
+    break;
+  case 'D':
+    offsetx += moveAmount;
+    offx += moveAmount;
+    break;
+  case 'w':
+    offsety -= moveAmount * 10;
+    offy -= moveAmount * 10;
+    break;
+  case 'a':
+    offsetx -= moveAmount * 10;
+    offx -= moveAmount * 10;
+    break;
+  case 's':
+    offsety += moveAmount * 10;
+    offy += moveAmount * 10;
+    break;
+  case 'd':
+    offsetx += moveAmount * 10;
+    offx += moveAmount * 10;
+    break;
+  default:
+    return;
   }
-  if (keyCode == 83) {//down
-    ceny+=1000/scale;
-  }
-  if (keyCode == 65) {//left
-    cenx-=1000/scale;
-  }
-  if (keyCode == 68) {//right
-    cenx+=1000/scale;
-  }
-  redraw=true;
+
+  isLooping = true;
 }
 
 void exit() {
-  if(type == 1)
+  if (type == 1)
     saveFrame("data/MandelbrotSet.jpg");
-  else if(type == 1)
+  else if (type == 1)
     saveFrame("data/JuliaSet.jpg");
-  else 
+  else
     saveFrame("data/Fractal.jpg");
-  println(cenx, ceny, scale);
   super.exit();
 }
