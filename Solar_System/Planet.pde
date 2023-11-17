@@ -1,67 +1,117 @@
 class Planet {
-  PGraphics canvas;
-  color c;
-  float m, r;
-  float pvx, pvy;
-  PVector pos, v;
-  boolean isSun;
-  int nr=0;
+  PVector pos, vel, acc;
+  final int radius;
+  final float g, mass;
+  boolean mainBody;
 
-  Planet(float mass, PVector pos, PVector v, boolean isSun) {
-    this.m=mass;
-    this.pos=pos;
-    this.v=v;
-    this.isSun = isSun;
+  final color c;
+  PGraphics trajectory, trace;
 
-    pvx = pos.x;
-    pvy = pos.y;
-    r = map(m, 0, 5000, 5, 250);
+  Planet(float x, float y, float velx, float vely, int radius, float g) {
+    pos = new PVector(x, y);
+    vel = new PVector(velx, vely);
 
-    canvas = createGraphics(width, height);
-    colorMode(HSB);
-    if (!isSun)
-      c = color(map(PVector.dist(sun.pos, pos)-r-sun.r, sun.r, width/2-r, 0, 255), 255, 255);
-    else
-      c=color(255);
+    this.radius = radius;
+    this.g = g;
+    this.mainBody = false;
+    mass = radius*radius * g * G;
+
+    c = color(map(dist(pos.x, pos.y, width/2, height/2) % min(width, height), 0, min(width, height), 0, 255), 255, 255);
+    trace = createGraphics(width, height);
   }
 
-  void update() {
-    PVector a = sun.pos.copy().sub(pos);
-    a.setMag((G*sun.m)/pow(PVector.dist(sun.pos, pos), 2));
+  Planet(float x, float y, float velx, float vely, int radius, float g, boolean mainBody) {
+    pos = new PVector(x, y);
+    vel = new PVector(velx, vely);
 
-    v.add(a);
+    this.radius = radius;
+    this.g = g;
+    this.mainBody = mainBody;
+    mass = radius*radius * g * G;
 
-    for (int i=0; i<n; i++)
-      if (PVector.dist(planets[i].pos, pos)!=0) {
-        a = planets[i].pos.copy().sub(pos);
-        a.setMag((G*planets[i].m/100)/pow(PVector.dist(planets[i].pos, pos), 2));
+    c = color(map(dist(pos.x, pos.y, width/2, height/2) % min(width, height), 0, min(width, height), 0, 255), 255, 255);
+    trace = createGraphics(width, height);
+  }
 
-        v.add(a);
+  Planet(Planet p) {
+    this.pos = p.pos.copy();
+    this.vel = p.vel.copy();
+
+    this.radius = p.radius;
+    this.g = p.g;
+    this.mainBody = p.mainBody;
+    this.mass = p.mass;
+
+    this.c = p.c;
+    this.trajectory = p.trajectory;
+    trace = createGraphics(width, height);
+  }
+
+  void updateVel() {
+    float dist = 0;
+    PVector dir;
+
+    acc = new PVector();
+
+    for (Planet p : planets)
+      if (p != this) {
+        dist = PVector.dist(pos, p.pos);
+        dir = PVector.sub(p.pos, pos).normalize();
+
+        acc.add(dir.mult(G * p.mass / (dist*dist)));
       }
 
-    pos.add(v);
-    pvx=pos.x;
-    pvy=pos.y;
+    vel.add(acc);
+  }
+
+  void updatePos() {
+    if (mainBody)
+      mainBodyOffset = PVector.sub(new PVector(width/2, height/2), pos);
+
+    pos.add(vel);
+
+    if (trace != null) {
+      trace.beginDraw();
+      trace.strokeWeight(2);
+      trace.stroke(c);
+      trace.line(pos.x - vel.x + mainBodyOffset.x, pos.y - vel.y + mainBodyOffset.y, pos.x + mainBodyOffset.x, pos.y + mainBodyOffset.y);
+      trace.endDraw();
+    }
+  }
+
+  void showTrajectory() {
+    if (trajectory != null)
+      image(trajectory, 0, 0);
+  }
+
+  void showTrace() {
+    if (trace != null)
+      image(trace, 0, 0);
   }
 
   void show() {
-    if (nr>10000) {
-      canvas =createGraphics(width, height);
-      nr=0;
-    }
-
-    image(canvas, -width/2, -height/2);
-    canvas.beginDraw();
-    canvas.translate(width/2, height/2);
-    canvas.strokeWeight(2);
-    canvas.stroke(c);
-    canvas.line(pvx, pvy, pos.x, pos.y);
-    canvas.endDraw();
-
-    ellipseMode(CENTER);
     fill(c);
-    noStroke();
-    circle(pos.x, pos.y, r);
-    nr++;
+
+    if (selectedPlanet == this) {
+      strokeWeight(2);
+      stroke(255);
+    } else
+      noStroke();
+
+    if (mainBody)
+      circle(width/2, height/2, radius);
+    else
+      circle(pos.x + mainBodyOffset.x, pos.y + mainBodyOffset.y, radius);
+  }
+
+  void updateTrajectory() {
+    if (mainBody)
+      return;
+
+    trajectory.beginDraw();
+    trajectory.strokeWeight(2);
+    trajectory.stroke(c);
+    trajectory.line(pos.x - vel.x + mainBodyOffset.x, pos.y - vel.y + mainBodyOffset.y, pos.x + mainBodyOffset.x, pos.y + mainBodyOffset.y);
+    trajectory.endDraw();
   }
 }
