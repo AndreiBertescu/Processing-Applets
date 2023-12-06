@@ -1,23 +1,39 @@
 QuadTree root;
 
+color[] pallete;
+
 //settings
 //right click to query the rootTree
 //left click to place new point
+int noPoints = 1000;
+float res = 0.0025; //noise resolution
+
 void setup() {
-  size(800, 800);
-  stroke(255);
-  noFill();
+  size(1920, 1920);
+
+  pallete = new color[5];
+  pallete[0] = color(#33658A);
+  pallete[1] = color(#86BBD8);
+  pallete[2] = color(#758E4F);
+  pallete[3] = color(#F6AE2D);
+  pallete[4] = color(#F26419);
 
   root = new QuadTree(new PVector(0, 0), width-1, height-1, 0);
-  for (int i=0; i<1000; i++)
-    root.insert(new PVector(random(width), random(height)));
+  while (noPoints > 0) {
+    PVector pos = new PVector(random(0, width), random(0, height));
+
+    if (noise(pos.x * res, pos.y * res) > 0.4) {
+      root.insert(pos);
+      noPoints--;
+    }
+  }
 }
 
 void draw() {
   background(0);
   root.show();
 
-  rect(mouseX-50, mouseY-50, 100, 100);
+  //rect(mouseX-50, mouseY-50, 100, 100);
 }
 
 void mouseReleased() {
@@ -30,7 +46,10 @@ void mouseReleased() {
   }
 }
 
-void exit(){
-  saveFrame("data/QuadTree.jpg");
+void keyPressed() {
+}
+
+void exit() {
+  saveFrame("data/QuadTree.png");
   super.exit();
 }

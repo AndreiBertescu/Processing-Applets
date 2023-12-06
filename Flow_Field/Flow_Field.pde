@@ -1,19 +1,21 @@
 Point[] fieldPoints;
 Particle[] particles;
 boolean paused = false;
+float t = 0;
 
 //settings
-float vel = 7;  //1:-7, 2:5, 3:5
-float resx = 0.01;
-float resy = 0.01;
+float vel = 14;  //1:7, 2:5, 3:5
+float resx = 0.006;
+float resy = 0.006;
+float dt = 0.001;
 float limit = PI*4.5; //1:4.5, 2:2, 3:2
-int n_fieldPoints = 500000;
-int n_particles = 30000;
-int type = 1; // noise: 1, tangent: 2, sin\cos: 3
-boolean Particles = true; //animate particles in flow field or just see flow field
+int n_fieldPoints = 50000;
+int n_particles = 1000;
+int type = 1; // noise: 1, tangent: 2, sin+cos: 3
+boolean Particles = false; //animate particles in flow field or just see flow field
 
 void setup() {
-  size(1920, 1080);
+  fullScreen();
   colorMode(HSB);
 
   fieldPoints = new Point[n_fieldPoints];
@@ -27,7 +29,7 @@ void setup() {
       particles[i] = new Particle(random(width), random(height));
   } else {
     noLoop();
-    background(255);
+    background(0);
     for (int i=0; i<n_fieldPoints; i++)
       fieldPoints[i].show();
   }
@@ -43,6 +45,8 @@ void draw() {
       particles[i].show();
     }
   }
+
+  t += dt;
 }
 
 void keyReleased() {
@@ -50,6 +54,6 @@ void keyReleased() {
 }
 
 void exit() {
-  saveFrame("data/FlowFields.jpg");
+  saveFrame("data/FlowFields.png");
   super.exit();
 }

@@ -10,15 +10,15 @@ float phi = 0;
 int nr, i, j, k;
 boolean show = true, edge;
 
-//settings
+//SETTINGS
 //press space to save image
-int res = 400; // higher -> lower performance
-int n = 6; // bulb type 6 - default
-int iter = 20; // bulf acuracy 20 - default
-float weight = 0.004; //size of points 0.0025 - default
+int res = 500; // higher -> lower performance
+int n = 4; // bulb type 6 - default
+int iter = 20; // bulb acuracy 20 - default
+float weight = 0.005; //size of points 0.0025 - default
 
 void setup() {
-  size(1000, 1000, P3D);
+  fullScreen(P3D);
   cam = new PeasyCam(this, 3);
   perspective(PI/4.0, float(width)/float(height), 0.1, 100000);
   colorMode(HSB);
@@ -34,6 +34,7 @@ void setup() {
   shape.strokeWeight(weight);
   shape.stroke(50, 255, 255);
 
+  println("Started!");
   for (i=0; i<res; i++) {
     for (j=0; j<res; j++) {
       edge=false;
@@ -66,8 +67,8 @@ void setup() {
           edge=false;
       }
     }
-    if (i%50 == 0)
-      println(i);
+    if ((i+1)%50 == 0)
+      println(nf(i / float(res) * 100, 3, 2), '%');
   }
   shape.endShape();
 
@@ -84,6 +85,4 @@ void draw() {
 void keyPressed() {
   if (keyCode == ' ')
     saveFrame("data/MendelBulb.png");
-  else;
-    //show = !show;
 }

@@ -47,7 +47,6 @@ class Boid {
     pos.add(vel);
     acc.mult(0);
 
-    noStroke();
     fill(144-map(targets.size()*1.3, 0, maxN, 0, 255), 255, 255);
 
     pushMatrix();

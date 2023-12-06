@@ -2,11 +2,12 @@ float x, y, pvx=0, pvy=0, d;
 boolean pt = false;
 float maxi, mini = 10000;
 
-//settings
+//SETTINGS
 //right click to increase angle
 //left click to decrease angle
 //press w to increment no. of points
 //press s to decrament no. of points
+//press space to save image
 //press anything else to toggle between points and lines
 int n = 6;
 float  d_ = 71;
@@ -67,11 +68,8 @@ void keyPressed() {
     n++;
   else if (key == 's')
     n--;
+  else if (key == ' ')
+    saveFrame("data/MaurerRose.png");
   else
     pt = !pt;
-}
-
-void exit(){
-  saveFrame("data/MaurerRose.jpg");
-  super.exit();
 }

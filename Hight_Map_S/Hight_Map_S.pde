@@ -12,30 +12,38 @@ float offs = 1;
 float offx = 0;
 float offy = 0;
 
-//settings
+
+//SETTINGS
 //press space to save image
-float offh = 0.04; // height offset - default: 0.04
+float offh = 0.03; // height offset - default: 0.04
 int res = 2; // image resolution - multiples of 2 - more = less detail
 int s = 1000; // star count
 float offc = 30; // color offset - only on colorr 1 or 2
-int colorr = 1; // color mode - black&white: 1, height map: 2, color map: 3 (only on earth)
-String geomPath = "Topo Custom 16x8.png"; // height map path - Topo Custom 16x8.png - lroc_color_poles_16kv2.png - 5672_mars_6k_topo.png
+int colorr = 4; // color mode - black&white: 1, height map: 2, color map: 3 (only on earth), lerp between c1 and c2: 4
+String geomPath = "5672_mars_6k_topo.jpg"; // height map path - Topo Custom 16x8.png - lroc_color_poles_8kv2.png - 5672_mars_6k_topo.jpg
 String colorPath = "colorMap.png"; // color map path
+color c1, c2;
 
 boolean geom = true; // height map
-boolean ocean = true; // unit sphere
+boolean ocean = false; // unit sphere
 boolean citiess = false; // city points
-boolean light = true; // lights
-boolean normals = true; // calculated normals
-boolean star = false; // stars
+boolean light = false; // lights
+boolean normals = false; // calculated normals
+boolean star = true; // stars
 
 void setup() {
-  size(1920, 1080, P3D);
+  fullScreen(P3D);
   colorMode(HSB);
   sphereDetail(180);
 
   cam = new PeasyCam(this, 3);
   perspective(PI/4.0, float(width)/float(height), 0.1, 100000);
+
+  //c2 = color(#571F4E);
+  //c1 = color(#A2FAA3);
+  
+  c1 = color(#5A1807);
+  c2 = color(#ffffff);
 
   if (geom) {
     //load height map
@@ -142,7 +150,7 @@ void draw() {
 
 void keyReleased() {
   if (key == ' ')
-    saveFrame("data/HeightMapS.jpg");
+    saveFrame("data/HeightMapS.png");
 }
 
 //offs controll
@@ -215,6 +223,11 @@ void generateSphere() {
       else if (colorr == 3) {
         colorMode(RGB);
         shape.fill(cbr(x*res, (y+1)*res)); // color map
+        colorMode(HSB);
+      } else if (colorr == 4) {
+        colorMode(RGB);
+        //println((br(x*res, (y+1)*res) + offc) / 255f);
+        shape.fill(lerpColor(c1, c2, (br(x*res, (y+1)*res) + offc) / 255f)); // lerp
         colorMode(HSB);
       }
       shape.vertex(b.x, b.y, b.z);

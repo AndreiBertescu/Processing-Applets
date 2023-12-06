@@ -7,7 +7,7 @@ boolean done;
 int m;
 float w, h;
 
-//settings
+//SETTINGS
 int n = 50; //size
 
 void setup() {
@@ -41,7 +41,7 @@ void update() {
     if (stk.empty()) {
       done = true;
       println("Done!");
-      save("Maze.tiff");
+      save("data/Maze.png");
       return;
     }
 
@@ -81,7 +81,6 @@ void update() {
 }
 
 void draw() {
-  //println(frameRate);
   if (!done)
     update();
 

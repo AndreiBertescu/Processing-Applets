@@ -53,8 +53,6 @@ A collection of small Processing programs to visualize mathematical models and o
 
 **Logic_Game_V2**: An upgraded version of the first Logic_Game; it has a proper worksheet where you can place a lot more IO ports and other chips. The worksheet can now be resized and moved, and the logic chips now have a 'BigPort', which you can use to connect all the wires associated with it.
 
-**Lorentz_System**: A simulation of a beautiful Lorentz system, which has been mirrored to resemble a butterfly.
-
 **Mandel_Bulb**: An applet which can generate variations of the Mandelbulb. [Wikipedia Link](https://en.wikipedia.org/wiki/Mandelbulb)
 
 <img src="https://github.com/AndreiBertescu/Processing-Applets/assets/126001291/af7692c1-5202-4248-96a6-cfb551b3cb33" height="350">
@@ -80,6 +78,8 @@ A collection of small Processing programs to visualize mathematical models and o
 **Snake**: A simple Snake game.
 
 **Solar_System**: A simulation of a randomly generated solar system. 
+
+**Strange_Attractor**: A simulation of three Strange Attractors. [Link](https://www.dynamicmath.xyz/strange-attractors)
 
 **Triangles**: Inspired by a long-deleted TikTok; it consists of multiple triangles of pseudo-random colors which subdivide into 4 equal triangles with the original color, either incremented or decremented by a set amount, thus creating beautiful patterns.
 

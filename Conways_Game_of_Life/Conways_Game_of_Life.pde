@@ -1,8 +1,12 @@
 short[][] grid, oldGrid;
 boolean paused = false;
 
-//settings
-int res=2; //screen pixel resolution
+//SETTINGS
+//press space to pause
+//press w to update grid once
+//left click to resurect cell
+//right click to kill cell
+int res=6; //screen pixel resolution - each cell is res pixels long
 
 void setup() {
   size(1920, 1080);
@@ -66,6 +70,6 @@ void update() {
 }
 
 void exit() {
-  saveFrame("data/Conways_Game_of_Life.jpg");
+  saveFrame("data/Conways_Game_of_Life.png");
   super.exit();
 }

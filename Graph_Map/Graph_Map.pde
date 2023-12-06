@@ -1,11 +1,11 @@
 Node[] nodes;
 
-//settings
+//SETTINGS
 int n = 300; //nr. of nodes
-int r = 1;
+int r = 30;  //radius of circles
 int str = 2;
 int nr = 6;  //max nr. of connections
-boolean Color = true;  //make connections color/black and white
+boolean Color = false;  //make connections color/black and white
 
 void setup() {
   size(1920, 1080);
@@ -13,7 +13,6 @@ void setup() {
   colorMode(HSB);
   strokeWeight(str);
   stroke(255, 150);
-  fill(255, 250);
 
   nodes = new Node[n];
   for (int i=0; i<n; i++)
@@ -32,6 +31,6 @@ void draw() {
 }
 
 void exit() {
-  save("data/GraphMap.jpg");
+  saveFrame("data/GraphMap.png");
   super.exit();
 }

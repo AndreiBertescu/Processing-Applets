@@ -36,16 +36,20 @@ class Node {
   }
 
   void showLines() {
+    noFill();
+
     if (Color) {
       stroke(map(id, 0, n-1, 0, 255), 255, 255, 175);
       fill(map(id, 0, n-1, 0, 255), 255, 255, 255);
     }
     for (int i=0; i<nr; i++)
       line(pos.x, pos.y, nodes[mini[i]].pos.x, nodes[mini[i]].pos.y);
-      triangle(pos.x, pos.y, nodes[mini[0]].pos.x, nodes[mini[0]].pos.y, nodes[mini[1]].pos.x, nodes[mini[1]].pos.y);
+    triangle(pos.x, pos.y, nodes[mini[0]].pos.x, nodes[mini[0]].pos.y, nodes[mini[1]].pos.x, nodes[mini[1]].pos.y);
   }
 
   void showCircles() {
+    fill(255);
+
     if (Color) {
       stroke(map(id, 0, n-1, 0, 255), 255, 255, 175);
       fill(map(id, 0, n-1, 0, 255), 255, 255, 255);

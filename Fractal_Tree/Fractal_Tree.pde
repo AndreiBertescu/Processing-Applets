@@ -1,11 +1,13 @@
 float len, ratio, ang;
 
-//settings
+//SETTING
 //scroll to increase/decrease tree angle;
+
 void setup() {
   size(1920, 1080);
   strokeWeight(2);
   colorMode(HSB);
+  ellipseMode(CORNER);
 
   len = 300;
   ratio = 0.71;
@@ -13,12 +15,12 @@ void setup() {
 }
 
 void draw() {
-  background(20);
+  background(220);
 
   translate(800, height);
   rotate(PI+PI/6);
   stroke(#7E370C);
-  strokeWeight(2);
+  strokeWeight(4);
   line(0, 0, 0, len);
 
   recursive(len*ratio);
@@ -26,32 +28,42 @@ void draw() {
 }
 
 void recursive(float len) {
-  stroke(#7E370C);
-  strokeWeight(2);
-  if (len<=15){
-    stroke(map(len, 15, 100, 0, 100), 255, 255);
-    strokeWeight(0.8);
-  }
+  if (len < 1.75) {
+    pushMatrix();
+    translate(0, len/ratio);
 
-  if (len>1) {
+    strokeWeight(0.5);
+    stroke(0, 100);
+    fill(#ffb7c5, 200);
+
+    circle(0, 0, 5);
+    popMatrix();
+  } else {
+    stroke(#7E370C);
+    if (len <= 15)
+      strokeWeight(2);
+    else
+      strokeWeight(4);
+
     pushMatrix();
     translate(0, len/ratio);
     rotate(radians(-ang));
     line(0, 0, 0, len);
+
     recursive(len*ratio);
     popMatrix();
 
+    if (len <= 15)
+      strokeWeight(2);
+    else
+      strokeWeight(4);
     stroke(#7E370C);
-    strokeWeight(2);
-    if (len<=15){
-      stroke(map(len, 15, 0, 0, 100), 255, 255);
-      strokeWeight(0.8);
-    }
 
     pushMatrix();
     translate(0, len/ratio);
     rotate(radians(ang*0.5));
     line(0, 0, 0, len);
+
     recursive(len*ratio);
     popMatrix();
   }
@@ -63,6 +75,6 @@ void mouseWheel(MouseEvent event) {
 }
 
 void exit() {
-  saveFrame("data/FractalTree.jpg");
+  saveFrame("data/FractalTree.png");
   super.exit();
 }

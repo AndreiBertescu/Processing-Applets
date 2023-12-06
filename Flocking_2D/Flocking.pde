@@ -4,12 +4,12 @@ UI ui;
 int resx, resy;
 int maxN = 10;
 
-//settings
-int n = 1000;              //nr of boids
+//SETTING
+int n = 7000;              //nr of boids
 float maxVel = 2;          //max velocity of boid
-float r = 4;               //size of boid
+float r = 3;               //size of boid
 boolean showGrid = false;  //show hashmap grid
-boolean showUI = false;     //show UI
+boolean showUI = true;     //show UI
 
 //ui presets
 int off = 15;      //UI rects offset
@@ -35,14 +35,14 @@ void setup() {
     boids.add(new Boid());
 
   if (showUI)
-    ui = new UI(250, 220);
+    ui = new UI(250, 230);
 }
 
 void draw() {
-  background(70);
+  background(230);
   fill(5);
-  strokeWeight(1);
-  stroke(255);
+  strokeWeight(0.7);
+  stroke(0);
 
   hash();
 
@@ -73,6 +73,10 @@ void hash() {
 }
 
 void exit() {
-  saveFrame("data/Flocking.jpg");
+  showUI = false;
+  noLoop();
+  loop();
+  
+  saveFrame("data/Flocking.png");
   super.exit();
 }

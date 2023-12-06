@@ -3,16 +3,15 @@ int varr = 4;
 int iter = 4;
 PVector z = PVector.fromAngle(random(360)).mult(10);
 
-//settings
+//SETTINGS
 //drag mouse to play with fluid
-int N = 270;//270 - higher -> slower
-int len = 8; //8 - lower -> slower
-boolean blackAndWhite= true; //black and white or color
+int N = 270*2;//270 - higher -> slower
+int len = 8/2; //8 - lower -> slower
+boolean blackAndWhite= !false; //black and white or color
 float dt = 0.15; //time step
 float diff = 0;
-float visc = 0.5;
+float visc = 0.9;
 float fade = 0;
-
 
 void settings() {
   fullScreen();
@@ -44,6 +43,6 @@ void mouseDragged() {
 }
 
 void exit() {
-  saveFrame("data/Fluid.jpg");
+  saveFrame("data/Fluid.png");
   super.exit();
 }

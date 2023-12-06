@@ -126,11 +126,11 @@ public void keyReleased() {
 }
 
 void exit() {
-  if (type == 1)
-    saveFrame("data/MandelbrotSet.jpg");
+  if (type == 0)
+    saveFrame("data/MandelbrotSet.png");
   else if (type == 1)
-    saveFrame("data/JuliaSet.jpg");
+    saveFrame("data/JuliaSet.png");
   else
-    saveFrame("data/Fractal.jpg");
+    saveFrame("data/Fractal.png");
   super.exit();
 }

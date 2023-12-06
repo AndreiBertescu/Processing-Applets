@@ -1,4 +1,4 @@
-//settings
+//SETTINGS
 int res = 3;
 
 void setup() {
@@ -65,6 +65,6 @@ boolean isPrime(int x) {
 }
 
 void exit() {
-  saveFrame("data/Ulam.jpg");
+  saveFrame("data/Ulam.png");
   super.exit();
 }

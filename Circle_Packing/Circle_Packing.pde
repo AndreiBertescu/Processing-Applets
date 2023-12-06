@@ -3,14 +3,33 @@ PImage img;
 int nr;
 boolean done = false;
 
-//settings
+color[] pallete;
+
+//SETTINGS
 String imageName = "img.jpg";
-int res = 1000; // no. of circles - 1-1000
+int res = 90; // no. of circles - 1-1000
 int maxiter = 1000; // max no. of tries to place new circle
+boolean image = false; //use an image or use Perlin noise
+float ress = 0.008; //noise resolution
 
 void setup() {
-  size(1920, 1080);
+  fullScreen();
+  ellipseMode(RADIUS);
 
+  pallete = new color[5];
+  //pallete[0] = color(#0C1618);
+  //pallete[1] = color(#004643);
+  //pallete[2] = color(#FAF4D3);
+  //pallete[3] = color(#D1AC00);
+  //pallete[4] = color(#F6BE9A);
+
+  pallete[0] = color(#2E4057);
+  pallete[1] = color(#E3D985);
+  pallete[2] = color(#9A1436);
+  pallete[3] = color(#2EC4B6);
+  pallete[4] = color(#FF785A);
+
+  if (image)
   try {
     img = loadImage("data/" + imageName);
     img.resize(width, height);
@@ -20,15 +39,16 @@ void setup() {
     println("Image not found!");
     exit();
   }
-  clear();
+
+  background(255);
 }
 
 void draw() {
-  background(0);
-  for (Circle c : grid) {
-    c.update();
-    c.show();
-  }
+  for (Circle c : grid)
+    if (c.possible) {
+      c.update();
+      c.show();
+    }
 
   for (int i=0; i<res; i++) {
     newCircle();
@@ -59,6 +79,12 @@ void newCircle() {
 
   println("Done!");
   done = true;
-  save("data/Circle.jpg");
+  save("data/Circle.png");
   noLoop();
+}
+
+void exit() {
+  save("data/Circle.png");
+
+  super.exit();
 }

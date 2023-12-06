@@ -7,15 +7,15 @@ int maxN = 10;
 int aux;
 Boid b;
 
-//settings
+//SETTINGS
 // press space to save image
 int size = 1000;             //size of box
-int n = 10000;               //no. of boids
+int n = 20000;               //no. of boids
 float r = 0.7;               //size of boid
 boolean showGrid = false;    //show hashmap grid
 boolean showBorder = false;  //show border
 int res = size/40;           //size of hash cells
-float maxVel = 6;            //max velocity
+float maxVel = 3;            //max velocity
 float drawDist = 50;         //radius of vision
 float maxForce = 0.4;        //max force
 float sep = 1.0;             //separation
@@ -99,7 +99,7 @@ PShape makeShape(float r, int c) {
   face.beginShape();
   face.noStroke();
   face.fill(color(128 - c, 255, 255));
-  face.vertex(0, 0, r*2);
+  face.vertex(0, 0, r*4);
   face.vertex(-r, -r, -r);
   face.vertex(r, -r, -r);
   face.endShape();
@@ -109,7 +109,7 @@ PShape makeShape(float r, int c) {
   face.beginShape();
   face.noStroke();
   face.fill(color(128 - c, 255, 255));
-  face.vertex(0, 0, r*2);
+  face.vertex(0, 0, r*4);
   face.vertex(r, -r, -r);
   face.vertex(r, r, -r);
   face.endShape();
@@ -119,7 +119,7 @@ PShape makeShape(float r, int c) {
   face.beginShape();
   face.noStroke();
   face.fill(color(128 - c, 255, 255));
-  face.vertex(0, 0, r*2);
+  face.vertex(0, 0, r*4);
   face.vertex(r, r, -r);
   face.vertex(-r, r, -r);
   face.endShape();
@@ -129,7 +129,7 @@ PShape makeShape(float r, int c) {
   face.beginShape();
   face.noStroke();
   face.fill(color(128 - c, 255, 255));
-  face.vertex(0, 0, r*2);
+  face.vertex(0, 0, r*4);
   face.vertex(-r, r, -r);
   face.vertex(-r, -r, -r);
   face.endShape();
@@ -151,5 +151,5 @@ PShape makeShape(float r, int c) {
 
 void keyReleased() {
   if(key == ' ')
-    saveFrame("data/Flocking.jpg");
+    saveFrame("data/Flocking.png");
 }

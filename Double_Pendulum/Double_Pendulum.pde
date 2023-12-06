@@ -3,7 +3,7 @@ float angv1, angv2, anga1, anga2;
 PVector pos1, pos2, prevpos;
 PGraphics canvas;
 
-//settings
+//SETTINGS
 int l1=300;  //length of first pendulum
 int l2=280;  //length of second pendulum
 int m1=400;  //mass of first pendulum
@@ -54,13 +54,16 @@ void draw() {
 
   canvas.beginDraw();
   canvas.translate(width/2, height/2-200);
-  canvas.stroke(map(abs(ang1-ang2)%PI, 0, PI, 255, 0), 255, 230);
+  
+  //canvas.stroke(map(abs(ang1-ang2)%PI, 0, PI, 0, 255), 255, 230);  //angle
+  canvas.stroke(map(m2 * (PVector.sub(prevpos,pos2).mag() * 1/60), 0, 250, 0, 255), 255, 230);  //cinetic energy
+  
   canvas.line(pos2.x, pos2.y, prevpos.x, prevpos.y);
   canvas.endDraw();
   prevpos = pos2.copy();
 }
 
 void exit() {
-  saveFrame("data/Pendulum.jpg");
+  saveFrame("data/Pendulum.png");
   super.exit();
 }

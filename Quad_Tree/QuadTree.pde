@@ -4,9 +4,9 @@ class QuadTree {
   ArrayList<PVector> points = new ArrayList<PVector>();
   QuadTree[] children = new QuadTree[4];
   PVector origin;
-  float w, h;
+  float w, h, strokeWeight;
   boolean isSplit = false;
-  int level, cap = 4;
+  int level, cap = 4, colorr;
 
   QuadTree(PVector origin, float w, float h, int level) {
     this.origin = origin;
@@ -15,6 +15,9 @@ class QuadTree {
     this.level = level;
 
     cap += floor(log(level));
+    
+    strokeWeight = random(10, 15);
+    colorr = floor(random(0, pallete.length));
   }
 
   void insert(PVector p) {
@@ -89,12 +92,18 @@ class QuadTree {
 
   void show() {
     if (!isSplit) {
-      strokeWeight(1);
-      rect(origin.x, origin.y, w, h);
+      //strokeWeight(1);
+      //rect(origin.x, origin.y, w, h);
 
-      strokeWeight(2);
-      for (PVector p : points)
-        point(p.x, p.y);
+      //strokeWeight(2);
+      //for (PVector p : points)
+      //  point(p.x, p.y);
+
+      fill(pallete[colorr]);
+      strokeWeight(strokeWeight);
+      stroke(0);
+      
+      rect(origin.x, origin.y, w, h);
     } else for (int i=0; i<4; i++)
       children[i].show();
   }

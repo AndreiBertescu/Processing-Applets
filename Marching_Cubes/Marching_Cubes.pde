@@ -1,18 +1,21 @@
 float[][][] grid;
-int time=0, res=10;
-int x = res/2, layers = 2;
+int time=0, x;
 Player player;
 
-//settings
+//SETTINGS
 //press wasd to move around
 //left/right click to  increase/decrease time
+//press space to save image
 color walkable = color(18, 161, 67); //grass color
+int layers = 5;
+int res = 10;
 
 void setup() {
-  size(800, 800);
-  noiseSeed((int)random(1000));
+  size(1920, 1920);
+  noiseSeed((int)random(1000000));
 
   grid = new float[layers][width/res+1][height/res+1];
+  x = res/2;
 
   background(18, 125, 161);
   noFill();
@@ -190,7 +193,7 @@ void mousePressed() {
     time+=60;
   else if (mouseButton == RIGHT)
     time-=60;
-    
+
   if (!(pixels[player.y*width+player.x]==walkable && pixels[player.y*width+player.x+player.r]==walkable && pixels[player.y*width+player.x-player.r]==walkable &&
     pixels[(player.y+player.r)*width+player.x]==walkable && pixels[(player.y-player.r)*width+player.x]==walkable)) {
     player = new Player();
@@ -215,6 +218,10 @@ void keyPressed() {
 }
 
 void keyReleased() {
+  if (key == ' ') {
+    saveFrame("data/Marching.png");
+  }
+
   if (keyCode == 87) {
     player.up=false;
   }
