@@ -84,3 +84,5 @@ A collection of small Processing programs to visualize mathematical models and o
 **Triangles**: Inspired by a long-deleted TikTok; it consists of multiple triangles of pseudo-random colors which subdivide into 4 equal triangles with the original color, either incremented or decremented by a set amount, thus creating beautiful patterns.
 
 **Ulam_Spiral**: An implementation of the Ulam spiral. [Wikipedia Link](https://en.wikipedia.org/wiki/Ulam_spiral)
+
+**Vinyl_Sim**: An artistic representation of a vinyl disk, where the line 'width' is the amplitude.
