@@ -69,6 +69,8 @@ A collection of small Processing programs to visualize mathematical models and o
 
 **Minesweeper**: As the title says... Minesweeper!
 
+**Perlin_Map**: It iterates through each pixel, coloring it if the Perlin noise function falls within a certain range, thereby creating a visually appealing 'topographic' map.
+
 **Quad_Tree**: An implementation of a quad tree which I used in the flocking apps to increase efficiency; it has two operations: you can place points or query a certain area to see all the points that it contains.
 
 **Rope_Simulation**: A soft-body physics applet which simulates a piece of fabric. 
