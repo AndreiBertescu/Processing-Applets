@@ -69,6 +69,8 @@ A collection of small Processing programs to visualize mathematical models and o
 
 **Minesweeper**: As the title says... Minesweeper!
 
+**Periodic_Explorer**: An app where you can explore all the elements from the periodic table along some of their details by adjusting the number of protons, neutrons, and electrons.
+
 **Perlin_Map**: It iterates through each pixel, coloring it if the Perlin noise function falls within a certain range, thereby creating a visually appealing 'topographic' map.
 
 **Quad_Tree**: An implementation of a quad tree which I used in the flocking apps to increase efficiency; it has two operations: you can place points or query a certain area to see all the points that it contains.
