@@ -11,6 +11,8 @@ A collection of small Processing programs to visualize mathematical models and o
 
 **City_Builder**: A rudimentary app that generates a city block.
 
+<img src="https://github.com/AndreiBertescu/Processing-Applets/assets/126001291/1148e21a-5009-49b6-9269-ca0567b08ac5" height="350">
+
 **Code_Image**: An algorithm that arranges its code to resemble a given image.
 
 **Collatz_Conjecture**: A way of visualizing the famous unsolved conjecture. [Wikipedia Link](https://en.wikipedia.org/wiki/Collatz_conjecture)
