@@ -11,6 +11,8 @@ A collection of small Processing programs to visualize mathematical models and o
 
 **City_Builder**: A rudimentary app that generates a city block.
 
+**Code_Image**: An algorithm that arranges its code to resemble a given image.
+
 **Collatz_Conjecture**: A way of visualizing the famous unsolved conjecture. [Wikipedia Link](https://en.wikipedia.org/wiki/Collatz_conjecture)
 
 **Conway's_Game_of_Life**: As the title says, it reproduces the famous ruleset of the Game of Life - Now in fullscreen!
